@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::fmt::format;
 use std::fs;
 use std::path::PathBuf;
 
@@ -7,8 +6,6 @@ use exif::Field;
 use exif::In;
 use exif::Tag;
 use exif::Value;
-
-use serde::Deserialize;
 
 extern crate exif;
 
@@ -161,7 +158,7 @@ fn find_ciy_name(json_text: &str) -> Result<String, String> {
                     if let Some(long_name) = component.long_name {
                         return Ok(long_name);
                     }
-                    if let Some(short_name) = component.long_name {
+                    if let Some(short_name) = component.short_name {
                         return Ok(short_name);
                     }
                     return Err(String::from("NIEZNANE"));
