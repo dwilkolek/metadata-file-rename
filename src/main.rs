@@ -106,7 +106,7 @@ async fn main() -> tokio::io::Result<()> {
 
         new_path.pop();
         new_path.push(format!("{}.{}", entry.1, extension));
-        println!("{} -> {}", entry.0.display(), entry.1);
+        println!("{} -> {}", entry.0.display(), new_path.display());
         if make_changes {
             fs::rename(entry.0, new_path).unwrap();
         }
@@ -183,11 +183,10 @@ fn creation_date(exif: &exif::Exif) -> String {
 fn get_tag_date(exif: &exif::Exif, tag: Tag, dates: &mut Vec<String>) {
     let date = exif.get_field(tag, In::PRIMARY);
     if let Some(date) = date {
-        dbg!(date);
         return match date.value {
             Value::Ascii(ref v) if !v.is_empty() => {
                 let found_date = date.display_value().to_string();
-                dates.push(found_date)
+                dates.push(found_date.replace(":", "."))
             }
             _ => {}
         };
